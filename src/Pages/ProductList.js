@@ -53,16 +53,23 @@ const ProductList = () => {
 
   // Fetch all products
   const fetchProducts = async () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    if (!user || !user._id) {
+        console.error("User ID not found");
+        return;
+    }
+
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5003/api/product");
-      setProducts(response.data);
+        const response = await axios.get(`http://localhost:5003/api/product/${user._id}`);
+        setProducts(response.data);
     } catch (error) {
-      console.error("Error fetching products:", error);
+        console.error("Error fetching products:", error);
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
 
   useEffect(() => {
     fetchProducts();
@@ -126,8 +133,12 @@ const ProductList = () => {
   //   }
   // };
 
+ 
+
   const handleCreateProduct = async () => {
     setLoading(true);
+
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const formDataToSend = new FormData();
 
@@ -139,6 +150,7 @@ const ProductList = () => {
     formDataToSend.append("category", formData.category);
     formDataToSend.append("brand", formData.brand);
     formDataToSend.append("isActive", formData.isActive);
+    formDataToSend.append("user_Id", user._id)
 
     // Append images
     formData.images.forEach((image) => {

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const [formData, setFormData] = useState({ email: "", password: "" });
+    const [formData, setFormData] = useState({ username: "", password: "" });
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false); 
@@ -24,7 +24,7 @@ const Login = () => {
             const response = await axios.post("http://localhost:5003/api/users/login", formData);
             setSuccess(response.data.message);
             localStorage.setItem("user", JSON.stringify(response.data.user)); 
-            setTimeout(() => navigate("/"), 2000);
+            setTimeout(() => navigate("/"), 1000);
         } catch (err) {
             setError(err.response?.data?.message || "Invalid credentials");
         } finally {
@@ -49,7 +49,7 @@ const Login = () => {
                     {error && <Alert severity="error">{error}</Alert>}
                     {success && <Alert severity="success">{success}</Alert>}
                     <form onSubmit={handleSubmit}>
-                        <TextField fullWidth label="Email" name="email" margin="normal" required onChange={handleChange} />
+                        <TextField fullWidth label="username" name="username" margin="normal" required onChange={handleChange} />
                         <TextField fullWidth label="Password" name="password" type="password" margin="normal" required onChange={handleChange} />
                         <Button fullWidth variant="contained" color="primary" sx={{ mt: 2 }} type="submit" disabled={loading}>
                             {loading ? <CircularProgress size={24} /> : "Login"}

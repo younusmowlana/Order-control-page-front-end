@@ -23,7 +23,7 @@ const Register = () => {
         try {
             const response = await axios.post("http://localhost:5003/api/users/register", formData);
             setSuccess(response.data.message);
-            setTimeout(() => navigate("/"), 2000);
+            setTimeout(() => navigate("/"), 1000);
         } catch (err) {
             setError(err.response?.data?.message || "Something went wrong");
         } finally {
